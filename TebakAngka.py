@@ -1,47 +1,48 @@
+from multiprocessing.sharedctypes import Value
 import tkinter as tk
 from tkinter import Button, ttk
 from tkinter.messagebox import showinfo
+import random
+from turtle import onclick
 
 root = tk.Tk()
 root.title('Games Tebak Angka')
 root.geometry('300x300+200+150')
 root.resizable(False, False)
 
+# variables
+hint_rendah = "tebakanmu terlalu rendah"
+hint_tinggi = "tebakanmu terlalu tinggi"
+
 # functions for result/hint
+angka = random.randint(1, 9)
+kesempatan = 0
+
+def angka_random(text):
+
+    global hint_rendah, hint_tinggi, kesempatan
+
+    tebakan = text
+
+    while kesempatan < 5:
+        try:
+            tebakan = text
+        except ValueError: tebakan = 9999
+        kesempatan += 1
+        if tebakan < angka:
+            label_hint.config(text = hint_rendah)
+        elif tebakan > angka:
+            label_hint.config(text=hint_tinggi)
+        elif tebakan == angka: break
+
+    if tebakan == angka:
+        label_res.config(text= "Kamu menebaknya dalam " + str(kesempatan) + " percobaan!")
+    else:
+        label_res.config(text= "\033[1mKamu gagal, angka yang benar adalah " + str(angka))
 
 
-# functions for 'angka'
-def btn1_clicked():
-    angka = 1
-
-def btn2_clicked():
-    angka = 2
-
-def btn3_clicked():
-    angka = 3
-
-def btn4_clicked():
-    angka = 4
-
-def btn5_clicked():
-    angka = 5
-
-def btn6_clicked():
-    angka = 6
-
-def btn7_clicked():
-    angka = 7
-
-def btn8_clicked():
-    angka = 8
-
-def btn9_clicked():
-    angka = 9
-
-def btn5_clicked():
-    angka = 5
-
-
+def onclick(text):
+    angka_random(text)
 
 # configure the grid
 root.columnconfigure(0, weight=3)
@@ -85,31 +86,31 @@ label_res = ttk.Label(
 label_res.grid(column=0, row=6, sticky=tk.NW, padx=5, pady=15, columnspan=4)
 
 # button
-btn1 = ttk.Button(root, text="1", command=btn1_clicked)
+btn1 = ttk.Button(root, text="1", command=lambda:onclick(1))
 btn1.grid(column=0, row=2, padx=5, pady=5)
 
-btn2 = ttk.Button(root, text="2", command=btn2_clicked)
+btn2 = ttk.Button(root, text="2", command=lambda:onclick(2))
 btn2.grid(column=1, row=2, padx=5, pady=5)
 
-btn3 = ttk.Button(root, text="3", command=btn3_clicked)
+btn3 = ttk.Button(root, text="3", command=lambda:onclick(3))
 btn3.grid(column=2, row=2, padx=5, pady=5)
 
-btn4 = ttk.Button(root, text="4", command=btn4_clicked)
+btn4 = ttk.Button(root, text="4", command=lambda:onclick(4))
 btn4.grid(column=0, row=3, padx=5, pady=5)
 
-btn5 = ttk.Button(root, text="5", command=btn5_clicked)
+btn5 = ttk.Button(root, text="5", command=lambda:onclick(5))
 btn5.grid(column=1, row=3, padx=5, pady=5)
 
-btn6 = ttk.Button(root, text="6", command=btn6_clicked)
+btn6 = ttk.Button(root, text="6", command=lambda:onclick(6))
 btn6.grid(column=2, row=3, padx=5, pady=5)
 
-btn7 = ttk.Button(root, text="7", command=btn7_clicked)
+btn7 = ttk.Button(root, text="7", command=lambda:onclick(7))
 btn7.grid(column=0, row=4, padx=5, pady=5)
 
-btn8 = ttk.Button(root, text="8", command=btn8_clicked)
+btn8 = ttk.Button(root, text="8", command=lambda:onclick(8))
 btn8.grid(column=1, row=4, padx=5, pady=5)
 
-btn9 = ttk.Button(root, text="9", command=btn9_clicked)
+btn9 = ttk.Button(root, text="9", command=lambda:onclick(9))
 btn9.grid(column=2, row=4, padx=5, pady=5)
 
 root.mainloop()
